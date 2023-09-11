@@ -1,0 +1,28 @@
+{
+  "name": "tester-cli",
+  "version": "1.0.0",
+  "description": "Tester CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "fume": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fume-Test/Tester-CLI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fume-Test/Tester-CLI/issues"
+  },
+  "homepage": "https://github.com/Fume-Test/Tester-CLI#readme",
+  "dependencies": {
+    "cypress": "^13.1.0",
+    "cypress-xpath": "^2.0.1",
+    "yargs": "^17.7.2"
+  }
+}
