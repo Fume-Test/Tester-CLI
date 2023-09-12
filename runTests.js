@@ -1,6 +1,7 @@
 const cypress = require('cypress');
 
-function runTests(url, projectKey, timeout) {
+function runTests(url, projectKey, timeout, user) {
+
     // Configure Cypress with the provided options
     const cypressOptions = {
         config: {
