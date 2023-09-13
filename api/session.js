@@ -4,7 +4,7 @@ const { data } = require('cypress/types/jquery');
 const Event = require('./event')
 
 class Session {
-    constructor(id, cookies, windowWidth, windowHeight, user, project, localStorage, clientIP, startTime) {
+    constructor(id, cookies, windowWidth, windowHeight, user, project, localStorage, clientIP, startTime,authToken) {
         this.id = id;
         this.cookies = cookies,
             this.windowWidth = windowWidth;
@@ -14,6 +14,7 @@ class Session {
         this.localStorage = localStorage;
         this.clientIP = clientIP;
         this.startTime = startTime;
+        this.authToken = authToken
     }
 
     async getEvents() {
@@ -22,7 +23,8 @@ class Session {
             maxBodyLength: Infinity,
             url: config.url + '/api/events?session_id=' + this.id,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.authToken
             }
         };
 
