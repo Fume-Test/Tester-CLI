@@ -22,14 +22,6 @@ const argv = yargs(hideBin(process.argv))
         describe: 'Timeout in seconds',
         type: 'number',
         default: 300,
-      }) .option('username', {
-        describe: 'username',
-        type: 'string',
-        demandOption: true,
-      }) .option('password', {
-        describe: 'user password',
-        type: 'string',
-        demandOption: true,
       });
   })
   .demandCommand(1, 'You need at least one command before moving on')
@@ -41,7 +33,7 @@ if (argv._[0] === 'run') {
   console.log(`URL: ${argv.url}`);
   console.log(`Project Key: ${argv.projectKey}`);
   console.log(`Timeout: ${argv.timeout} seconds`);
-  var user = new User(argv.username,argv.password);
+  const user = new User(argv.projectKey)
   user.login()
   .then(result => {
     runTests(argv.url, argv.projectKey, argv.timeout, user);
