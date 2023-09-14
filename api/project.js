@@ -25,9 +25,8 @@ class Project{
           .then((response) => {
             const data = response.data
             this.sessions = []
-            console.log(data)
             for (let e = 0; e < data.length; e++) {
-                this.sessions.push(new Session(data[e]._id, data[e].cookies, data[e].windowWidth, data[e].windowHeights,data[e].user, data[e].project, data[e].localStorage,data[e].clientIP, data[e].startTime))
+                this.sessions.push(new Session(data[e]._id, data[e].cookies, data[e].windowWidth, data[e].windowHeight, data[e].user, data[e].project, data[e].localStorage,data[e].clientIP, data[e].startTime, this.authToken))
             }
           })
           .catch((error) => {

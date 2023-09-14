@@ -1,12 +1,11 @@
-
-
+const Session = require("../../api/session");
 
 describe('My Test Suite', () => {
-    it('My Test Case', () => {
-       // const session = Cypress.env('session');
+    const session = Cypress.env('session')
 
-       // console.log(session)
-        
+    it('My Test Case', () => {
+        cy.logToTerminal(`Session value: ${session.events}`);
+
         // Use the projectKey or any other env variables in your tests
     });
 });

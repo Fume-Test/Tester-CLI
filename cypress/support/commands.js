@@ -100,3 +100,7 @@ Cypress.Commands.add('recreateUserAction', (userEvent) => {
         }
     });
 });
+
+Cypress.Commands.add('logToTerminal', (message) => {
+    cy.task('logMessage', message);
+});

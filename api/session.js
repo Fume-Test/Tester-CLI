@@ -4,7 +4,7 @@ const config = require('./config.json');
 const Event = require('./event')
 
 class Session {
-    constructor(id, cookies, windowWidth, windowHeight, user, project, localStorage, clientIP, startTime,authToken) {
+    constructor(id, cookies, windowWidth, windowHeight, user, project, localStorage, clientIP, startTime, authToken) {
         this.id = id;
         this.cookies = cookies,
             this.windowWidth = windowWidth;
@@ -19,7 +19,7 @@ class Session {
 
     async getEvents() {
         let axios_config = {
-            method: 'post',
+            method: 'get',
             maxBodyLength: Infinity,
             url: config.url + '/api/events?session_id=' + this.id,
             headers: {
@@ -30,10 +30,10 @@ class Session {
 
         await axios.request(axios_config)
             .then((response) => {
-                data = response.data
+                const data = response.data
                 this.events = []
                 for (let e = 0; e < data.length; e++) {
-                    this.events.push(Event(data[e]._id, data[e].eventType, data[e].detail, data[e].session, data[e].eventOrder, data[e].location, data[e].eventTime))
+                    this.events.push(new Event(data[e]._id, data[e].eventType, data[e].detail, data[e].session, data[e].eventOrder, data[e].location, data[e].eventTime))
                 }
             })
     }
