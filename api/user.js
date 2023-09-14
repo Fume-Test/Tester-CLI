@@ -35,7 +35,7 @@ class User {
         throw error
       });
 
-      console.log(this)
+      
   }
 
 

@@ -25,5 +25,8 @@
     "cypress": "^13.1.0",
     "cypress-xpath": "^2.0.1",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.18"
   }
 }

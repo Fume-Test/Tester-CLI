@@ -1,7 +1,7 @@
 const axios = require('axios');
 const config = require('./config.json');
 const Session = require('./session');
-const { data } = require('cypress/types/jquery');
+
 
 class Project{
 
@@ -21,12 +21,13 @@ class Project{
             }
           };
           
-          axios.request(axios_config)
+         await axios.request(axios_config)
           .then((response) => {
-            data = response.data
+            const data = response.data
             this.sessions = []
+            console.log(data)
             for (let e = 0; e < data.length; e++) {
-                this.sessions.push(Session(data[e]._id, data[e].cookies, data[e].windowWidth, data[e].windowHeights,data[e].user, data[e].project, data[e].localStorage,data[e].clientIP, data[e].startTime))
+                this.sessions.push(new Session(data[e]._id, data[e].cookies, data[e].windowWidth, data[e].windowHeights,data[e].user, data[e].project, data[e].localStorage,data[e].clientIP, data[e].startTime))
             }
           })
           .catch((error) => {
