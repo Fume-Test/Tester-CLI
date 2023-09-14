@@ -1,6 +1,6 @@
 const axios = require('axios');
 const config = require('./config.json');
-const { data } = require('cypress/types/jquery');
+//const { data } = require('cypress/types/jquery');
 const Event = require('./event')
 
 class Session {
