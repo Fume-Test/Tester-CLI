@@ -27,41 +27,31 @@
 require('cypress-xpath');
 
 Cypress.Commands.add('findTarget', (xpath, tagName, id = null, innerHTML = null, placeholder = null) => {
-    // If an ID is provided, try to locate the element by ID first
     if (id) {
         cy.get(`#${id}`).then($el => {
             if ($el.length) return $el;
         });
-    }
-
-    // If the element wasn't found by ID, use the provided XPath
-    cy.xpath(xpath).then($elements => {
-        // If there's only one match, return it
-        if ($elements.length === 1) {
-            return $elements[0];
-        }
-        // If there's more than one match, filter by innerHTML or placeholder
-        else if ($elements.length > 1) {
-            if (tagName === 'input' && placeholder) {
-                // For input elements, filter by placeholder
-                $elements = $elements.filter((index, el) => {
-                    return el.getAttribute('placeholder') === placeholder;
-                });
-            } else if (innerHTML) {
-                // For other elements, filter by innerHTML
-                $elements = $elements.filter((index, el) => {
-                    return el.innerHTML === innerHTML;
-                });
+    } else {
+        cy.xpath(xpath).then($elements => {
+            if ($elements.length === 1) {
+                return cy.wrap($elements[0]);
+            } else if ($elements.length > 1) {
+                let $filteredElements = $elements;
+                if (tagName === 'input' && placeholder) {
+                    $filteredElements = $filteredElements.filter((index, el) => {
+                        return el.getAttribute('placeholder') === placeholder;
+                    });
+                } else if (innerHTML) {
+                    $filteredElements = $filteredElements.filter((index, el) => {
+                        return el.innerHTML === innerHTML;
+                    });
+                }
+                if ($filteredElements.length) return cy.wrap($filteredElements[0]);
             }
-
-            // After filtering, if there's at least one match, return it
-            if ($elements.length) return $elements[0];
-        }
-    });
-
-    // If the element wasn't found by any method, return null
-    return null;
+        });
+    }
 });
+
 
 Cypress.Commands.add('recreateUserAction', (userEvent) => {
     // Extract the required details from the user event object

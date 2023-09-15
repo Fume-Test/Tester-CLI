@@ -7,7 +7,7 @@ class Session {
     constructor(id, cookies, windowWidth, windowHeight, user, project, localStorage, clientIP, startTime, authToken) {
         this.id = id;
         this.cookies = cookies,
-            this.windowWidth = windowWidth;
+        this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.user = user;
         this.project = project;

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const config = require('./config.json');
 const Session = require('./session');
+const TestGroup = require('./testGroup');
 
 
 class Project{
@@ -34,7 +35,36 @@ class Project{
           });
           
     }
+    async addTestGroup(userID){
+        let data = JSON.stringify({
+            "user": userID,
+            "project": this.id
+          });
+          
+          let axios_config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: config.url + '/api/tests',
+            headers: { 
+              'Authorization': this.authToken, 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          await axios.request(axios_config)
+          .then((response) => {
+            const data = response.data
+            this.testGroup = new TestGroup(data._id, userID, data.status, this.id, data.startTime ,this.authToken)
+            return this.testGroup
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
 
 }
 
 module.exports = Project
+
+
