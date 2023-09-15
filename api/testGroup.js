@@ -34,7 +34,7 @@ class TestGroup{
           await axios.request(axios_config)
           .then((response) => {
             const data = response.data
-            const test_case = new Case(data._id,data.session,data.status,data.test,data,data.startTime,this.authToken)
+            const test_case = new Case(data._id,data.session,data.status,data.test,data.startTime,this.authToken)
             this.cases.push(test_case)
             return test_case
           })
