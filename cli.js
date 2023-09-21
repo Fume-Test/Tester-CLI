@@ -18,8 +18,8 @@ const argv = yargs(hideBin(process.argv))
         type: 'string',
         demandOption: true,
       })
-      .option('timeout', {
-        describe: 'Timeout in seconds',
+      .option('numTests', {
+        describe: 'Number of test cases you want to run',
         type: 'number',
         default: 300,
       });
@@ -32,11 +32,11 @@ if (argv._[0] === 'run') {
   console.log(`Running with the following options:`);
   console.log(`URL: ${argv.url}`);
   console.log(`Project Key: ${argv.projectKey}`);
-  console.log(`Timeout: ${argv.timeout} seconds`);
+  console.log(`Number of Tests: ${argv.numTests} seconds`);
   const user = new User(argv.projectKey)
   user.login()
   .then(result => {
-    runTests(argv.url, argv.projectKey, argv.timeout, user);
+    runTests(argv.url, argv.projectKey, argv.numTests, user);
   })
   .catch(error => {
     console.log(error)

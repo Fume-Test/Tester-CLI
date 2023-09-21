@@ -37,6 +37,10 @@ class Session {
                 }
             })
     }
+
+    async calculatNumSteps() {
+        
+    }
 }
 
 module.exports = Session;

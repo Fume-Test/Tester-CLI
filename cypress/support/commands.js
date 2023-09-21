@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 require('cypress-xpath');
+require('cypress-wait-until');
 
 Cypress.Commands.add('findTarget', (criteria) => {
     return cy.document().then((doc) => {

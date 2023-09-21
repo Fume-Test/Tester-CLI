@@ -6,7 +6,6 @@ async function runTests(url, projectKey, timeout, user) {
     var project = new Project(projectKey, user.token)
     await project.addTestGroup(user.id)
     project.getSessions().then(async result => {
-        var didFail = false
         for (let e = 0; e < project.sessions.length; e++) {
             var session = project.sessions[e]
             await project.testGroup.addCase(session.id)
@@ -18,7 +17,7 @@ async function runTests(url, projectKey, timeout, user) {
                 },
                 env: {
                     session: JSON.stringify(project.sessions[e]),
-                    caseID : project.testGroup.cases[e].id,
+                    caseID: project.testGroup.cases[e].id,
                     baseURL: url
                 },
                 headless: true,  // Run tests in headless mode
@@ -27,18 +26,19 @@ async function runTests(url, projectKey, timeout, user) {
                 key: '11ee67f1-3142-44c9-a024-4ad48e3306e1'
             };
 
-            // Run Cypress tests
-            await cypress.run(cypressOptions)
-                .then((results) => {
-                    //console.log(results);
-                    project.testGroup.cases[e].updateStatus('Passed')
-                })
-                .catch((err) => {
-                    console.error('Error running Cypress tests:', err);
-                    project.testGroup.cases[e].updateStatus('Failed')
-                    throw err
-                });
+            try {
+                const results = await cypress.run(cypressOptions);
+                await project.testGroup.cases[e].refresh();
+                if (project.testGroup.cases[e].status != "Failed") {
+                    project.testGroup.cases[e].updateStatus('Passed');
+                }
+            } catch (err) {
+                console.error('Error running Cypress tests:', err);
+                project.testGroup.cases[e].updateStatus('Failed');
+                throw err;
+            }
         }
+        project.testGroup.updateStatus("Complete");
     }).catch(error => {
         throw error
     });
