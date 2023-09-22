@@ -32,7 +32,7 @@ if (argv._[0] === 'run') {
   console.log(`Running with the following options:`);
   console.log(`URL: ${argv.url}`);
   console.log(`Project Key: ${argv.projectKey}`);
-  console.log(`Number of Tests: ${argv.numTests} seconds`);
+  console.log(`Number of Tests: ${argv.numTests}`);
   const user = new User(argv.projectKey)
   user.login()
   .then(result => {

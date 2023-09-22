@@ -11,12 +11,12 @@ class Project{
         this.authToken = authToken
     }
 
-    async getSessions(){
+    async getSessions(testCount){
 
         let axios_config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: config.url + '/api/sessions?project_id='+ this.id,
+            url: config.url + '/api/sessions?project_id='+ this.id + '&test_count='+ testCount,
             headers: { 
               'Authorization': this.authToken
             }

@@ -1,11 +1,11 @@
 const cypress = require('cypress');
 const Project = require('./api/project.js')
 
-async function runTests(url, projectKey, timeout, user) {
+async function runTests(url, projectKey, testCount, user) {
 
     var project = new Project(projectKey, user.token)
     await project.addTestGroup(user.id)
-    project.getSessions().then(async result => {
+    project.getSessions(testCount).then(async result => {
         for (let e = 0; e < project.sessions.length; e++) {
             var session = project.sessions[e]
             await project.testGroup.addCase(session.id)
