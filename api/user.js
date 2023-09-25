@@ -3,19 +3,21 @@ const config = require('./config.json');
 
 class User {
 
-  constructor(projectKey) {
-    this.projectKey = projectKey
+  constructor(projectKey , apiKey) {
+    this.projectKey = projectKey, 
+    this.apiKey = apiKey
   }
 
   async login() {
     let data = JSON.stringify({
-      "projectKey": this.projectKey
+      "project": this.projectKey,
+      "apiKey": this.apiKey
     });
 
     let axios_config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: config.url + '/api/auth/loginWithProjectKey',
+      url: config.url + '/api/auth/loginWithAPIKey',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -24,12 +26,9 @@ class User {
 
     await axios.request(axios_config)
       .then((response) => {
-
+        console.log(response.data)
         data = response.data
         this.token = data.token
-        this.id = data.user._id
-        this.permissions = data.user.permissions
-        this.__v = data.user.__v
       })
       .catch((error) => {
         throw error

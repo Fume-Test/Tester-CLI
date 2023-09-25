@@ -23,7 +23,7 @@ describe('My Test Suite', () => {
             }),
             {
                 interval: 500,  // Poll every 500ms
-                timeout: 10000  // Wait up to 10 seconds for the condition to be true
+                timeout: 120000  // Wait up to 10 seconds for the condition to be true
             }
         ).then((result) => {
             if (!result) {

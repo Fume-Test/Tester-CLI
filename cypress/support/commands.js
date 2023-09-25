@@ -99,7 +99,7 @@ Cypress.Commands.add('recreateUserAction', (userEvent) => {
             switch (eventType) {
                 case 'focusout':
                     // For input events, update the value first and then trigger the event
-                    if (tag_name === "INPUT" || tag_name === "TEXTAREA" ) {
+                    if ((tag_name === "INPUT" || tag_name === "TEXTAREA") && value) {
                         cy.wrap($el).clear();
                         cy.wrap($el).type(value, { delay: 100 });
                     }

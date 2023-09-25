@@ -29,7 +29,9 @@ async function runTests(url, projectKey, testCount, user) {
             try {
                 const results = await cypress.run(cypressOptions);
                 await project.testGroup.cases[e].refresh();
-                if (project.testGroup.cases[e].status != "Failed") {
+                if (results.totalFailed > 0) {
+                    project.testGroup.cases[e].updateStatus('Failed');
+                } else {
                     project.testGroup.cases[e].updateStatus('Passed');
                 }
             } catch (err) {

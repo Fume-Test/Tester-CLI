@@ -4,7 +4,7 @@ const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const { runTests } = require('./runTests')
 const User = require('./api/user.js')
- 
+
 const argv = yargs(hideBin(process.argv))
   .command('run', 'Run the fume command', (yargs) => {
     yargs
@@ -22,6 +22,11 @@ const argv = yargs(hideBin(process.argv))
         describe: 'Number of test cases you want to run',
         type: 'number',
         default: 300,
+      })
+      .option('apiKey', {
+        describe: 'API key',
+        type: 'string',
+        demandOption: true,
       });
   })
   .demandCommand(1, 'You need at least one command before moving on')
@@ -33,13 +38,13 @@ if (argv._[0] === 'run') {
   console.log(`URL: ${argv.url}`);
   console.log(`Project Key: ${argv.projectKey}`);
   console.log(`Number of Tests: ${argv.numTests}`);
-  const user = new User(argv.projectKey)
+  const user = new User(argv.projectKey, argv.apiKey);
   user.login()
-  .then(result => {
-    runTests(argv.url, argv.projectKey, argv.numTests, user);
-  })
-  .catch(error => {
-    console.log(error)
-  });
-  
+    .then(result => {
+      runTests(argv.url, argv.projectKey, argv.numTests, user);
+    })
+    .catch(error => {
+      console.log(error)
+    });
+
 }
