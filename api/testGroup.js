@@ -15,6 +15,7 @@ class TestGroup {
 
   async addCase(sessionID) {
     let data = JSON.stringify({
+      "project": this.projectID,
       "session": sessionID,
       "test": this.id
     });
