@@ -62,7 +62,6 @@ class TestGroup {
 
     axios.request(axios_config)
       .then((response) => {
-        console.log("Updated status: ", response.data.status)
         this.status = response.data.status
       })
       .catch((error) => {

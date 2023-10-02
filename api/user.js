@@ -26,7 +26,6 @@ class User {
 
     await axios.request(axios_config)
       .then((response) => {
-        console.log(response.data)
         data = response.data
         this.token = data.token
       })

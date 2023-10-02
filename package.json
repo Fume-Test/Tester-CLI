@@ -1,6 +1,6 @@
 {
-  "name": "tester-cli",
-  "version": "1.0.0",
+  "name": "fumetest-cli",
+  "version": "1.0.31",
   "description": "Tester CLI",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Fume-Test/Tester-CLI#readme",
   "dependencies": {
     "axios": "^1.5.0",
-    "cypress": "^13.1.0",
+    "cypress": "^13.3.0",
     "cypress-wait-until": "^2.0.1",
     "yargs": "^17.7.2"
   },

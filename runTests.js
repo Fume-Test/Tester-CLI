@@ -1,3 +1,14 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const execSync = require('child_process').execSync;
+
+// Determine the directory of the current npm package
+const packageDirectory = path.dirname(require.resolve('./package.json'));
+
+// Construct the path to the cypress.json file inside the package
+const cypressConfigPath = path.join(packageDirectory, 'cypress.config.js');
+
 const cypress = require('cypress');
 const Project = require('./api/project.js')
 
@@ -11,6 +22,7 @@ async function runTests(url, projectKey, testCount, user) {
             await project.testGroup.addCase(session.id)
             await session.getEvents()
             var cypressOptions = {
+                configFile: cypressConfigPath,
                 config: {
                     baseUrl: url,
                     video: true  // Enable video recording

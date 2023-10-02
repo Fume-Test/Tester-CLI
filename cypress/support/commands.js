@@ -29,7 +29,6 @@ require('cypress-wait-until');
 
 Cypress.Commands.add('findTarget', (criteria) => {
     return cy.document().then((doc) => {
-        cy.logToTerminal("searching...")
         let maxScore = -1;
         let bestMatch = null;
 
@@ -45,8 +44,6 @@ Cypress.Commands.add('findTarget', (criteria) => {
 
         // Start with all elements or just the elements with the provided tag name
         let initialElements = criteria.tag_name ? doc.querySelectorAll(criteria.tag_name) : doc.querySelectorAll('*');
-
-        cy.logToTerminal(criteria.placeholder)
 
         initialElements.forEach((element) => {
             let score = 0;
