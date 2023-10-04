@@ -1,10 +1,18 @@
 {
   "name": "fumetest-cli",
-  "version": "1.0.32",
+  "version": "1.0.42",
   "description": "Tester CLI",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pkg ."
+  },
+  "pkg": {
+    "targets": [
+      "node14-linux-x64",
+      "node14-macos-x64",
+      "node14-win-x64"
+    ]
   },
   "bin": {
     "fume": "./cli.js"

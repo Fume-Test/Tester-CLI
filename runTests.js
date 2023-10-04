@@ -10,7 +10,10 @@ const packageDirectory = path.dirname(require.resolve('./package.json'));
 const cypressConfigPath = path.join(packageDirectory, 'cypress.config.js');
 
 const cypress = require('cypress');
-const Project = require('./api/project.js')
+const Project = require('./api/project.js');
+
+const supportFilePath = path.join(packageDirectory, 'cypress', 'support', 'e2e.js');
+const integrationsFilePath = path.join(packageDirectory, 'cypress', 'e2e');
 
 async function runTests(url, projectKey, testCount, user) {
 
@@ -22,7 +25,21 @@ async function runTests(url, projectKey, testCount, user) {
             await project.testGroup.addCase(session.id)
             await session.getEvents()
             var cypressOptions = {
-                configFile: cypressConfigPath,
+                projectId: '2kxu2f',
+                e2e: {
+                    supportFile: supportFilePath,
+                    specPattern: `${integrationsFilePath}/**/*.cy.{js,jsx,ts,tsx}`,
+                    setupNodeEvents(on, config) {
+                        on('task', {
+                            logMessage(message) {
+                                console.log(message);
+                                return null; // Important: always return something to signify task completion
+                            }
+                        });
+
+                        // Keep any other configurations or listeners you may have
+                    },
+                },
                 config: {
                     baseUrl: url,
                     video: true  // Enable video recording
