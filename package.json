@@ -1,6 +1,6 @@
 {
   "name": "fumetest-cli",
-  "version": "1.0.42",
+  "version": "1.0.45",
   "description": "Tester CLI",
   "main": "index.js",
   "scripts": {

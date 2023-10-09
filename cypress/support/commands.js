@@ -27,7 +27,14 @@
 require('cypress-xpath');
 require('cypress-wait-until');
 
-Cypress.Commands.add('findTarget', (criteria) => {
+Cypress.Commands.add('findTarget', (criteria, startTime) => {
+    const timeout = 5000; // adjust as needed
+    const interval = 500; // adjust as needed
+
+    if (!startTime) {
+        startTime = new Date().getTime();
+    }
+
     return cy.document().then((doc) => {
         let maxScore = -1;
         let bestMatch = null;
@@ -48,7 +55,7 @@ Cypress.Commands.add('findTarget', (criteria) => {
         initialElements.forEach((element) => {
             let score = 0;
 
-            if (criteria.xpath && document.evaluate(criteria.xPath, doc, null, XPathResult.ANY_TYPE, null).iterateNext() === element) {
+            if (criteria.xPath && document.evaluate(criteria.xPath, doc, null, XPathResult.ANY_TYPE, null).iterateNext() === element) {
                 score += weights.xPath;
             }
             if (criteria.id && element.id === criteria.id) {
@@ -70,13 +77,20 @@ Cypress.Commands.add('findTarget', (criteria) => {
             }
         });
 
+        const currentTime = new Date().getTime();
         if (bestMatch) {
             return cy.wrap(bestMatch);
+        } else if (currentTime - startTime < timeout) {
+            return cy.wait(interval).then(() => {
+                return cy.findTarget(criteria, startTime);
+            });
         } else {
-            return null
+            throw new Error('Element not found within the specified timeout');
         }
     });
 });
+
+
 
 Cypress.Commands.add('recreateUserAction', (userEvent) => {
     // Extract the required details from the user event object
@@ -99,18 +113,15 @@ Cypress.Commands.add('recreateUserAction', (userEvent) => {
                     if ((tag_name === "INPUT" || tag_name === "TEXTAREA") && value) {
                         cy.wrap($el).clear();
                         cy.wrap($el).type(value, { delay: 100 });
-                        cy.wait(500)
                     }
                     break;
                 case 'click':
                     // Trigger the click event
                     $el.click();
-                    cy.wait(500)
                     break;
                 case 'dbclick':
                     // Trigger the double-click event
                     $el.dblclick();
-                    cy.wait(500)
                     break;
                 default:
                     cy.log(`Unknown event type: ${eventType}`);
