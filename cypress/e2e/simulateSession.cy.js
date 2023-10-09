@@ -30,7 +30,6 @@ describe('My Test Suite', () => {
 
         events.forEach(event => {
             cy.recreateUserAction(event);
-            cy.wait(500);
         });
     });
 });

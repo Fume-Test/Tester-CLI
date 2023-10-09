@@ -99,20 +99,22 @@ Cypress.Commands.add('recreateUserAction', (userEvent) => {
                     if ((tag_name === "INPUT" || tag_name === "TEXTAREA") && value) {
                         cy.wrap($el).clear();
                         cy.wrap($el).type(value, { delay: 100 });
+                        cy.wait(500)
                     }
                     break;
                 case 'click':
                     // Trigger the click event
                     $el.click();
+                    cy.wait(500)
                     break;
                 case 'dbclick':
                     // Trigger the double-click event
                     $el.dblclick();
+                    cy.wait(500)
                     break;
                 default:
                     cy.log(`Unknown event type: ${eventType}`);
             }
-            cy.wait(100)
         } else {
             cy.log('Element not found');
         }
