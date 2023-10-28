@@ -30,7 +30,7 @@ describe('Fume Test Suite', () => {
 
             // Iterate over the object's keys and set each key-value pair in localStorage
             Object.keys(localStorage).forEach(key => {
-                win.localStorage.setItem(key, objectToStore[key]);
+                win.localStorage.setItem(key, localStorage[key]);
             });
         });
 
