@@ -28,9 +28,11 @@ async function runTests(url, projectKey, testCount, user) {
                     video: true  // Enable video recording
                 },
                 env: {
+                    authToken: user.token,
                     session: JSON.stringify(project.sessions[e]),
                     caseID: project.testGroup.cases[e].id,
-                    baseURL: url
+                    baseURL: url,
+                    projectKey: projectKey,
                 },
                 headless: true,  // Run tests in headless mode
                 browser: 'chrome',  // Specify the 

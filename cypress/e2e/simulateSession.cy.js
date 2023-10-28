@@ -1,17 +1,38 @@
+const ActionLog = require("../../api/actionLog");
 const Session = require("../../api/session");
 require('cypress-xpath');
 
-describe('My Test Suite', () => {
+describe('Fume Test Suite', () => {
     const session_string = Cypress.env('session')
     const baseURL = Cypress.env('baseURL')
     const caseID = Cypress.env('caseID')
+    const authToken = Cypress.env('authToken')
+    const projectKey = Cypress.env('projectKey')
     const session = JSON.parse(session_string)
+    const cookies = session.cookies.split("; ");
+    const localStorage = session.localStorage;
     const events = session.events
 
     const pageURL = baseURL + events[0].detail.pathname + '?tracker_ignore=true&case_id=' + caseID
 
     it('My Test Case', () => {
         cy.visit(pageURL)
+
+        // Iterate over each cookie and set it
+        cookies.forEach(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        cy.setCookie(name, value);
+        });
+
+        cy.window().then((win) => {
+            // Clear existing localStorage
+            win.localStorage.clear();
+
+            // Iterate over the object's keys and set each key-value pair in localStorage
+            Object.keys(objectToStore).forEach(key => {
+                win.localStorage.setItem(key, objectToStore[key]);
+            });
+        });
 
         cy.waitUntil(() =>
             cy.getCookie('test-ready').then(cookie => {
@@ -28,9 +49,13 @@ describe('My Test Suite', () => {
             cy.reload();
         });
 
+
+
         events.forEach(event => {
+            let actionLog = new ActionLog(caseID, event.id, projectKey, authToken)
             cy.recreateUserAction(event);
-            cy.wait(250)
+            actionLog.save()
+            cy.wait(250);
         });
     });
 });
