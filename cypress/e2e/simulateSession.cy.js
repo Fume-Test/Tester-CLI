@@ -13,9 +13,10 @@ describe('Fume Test Suite', () => {
     const localStorage = session.localStorage;
     const events = session.events
 
-    const pageURL = baseURL + events[0].detail.pathname + '?tracker_ignore=true&case_id=' + caseID
+    const pageURL = baseURL + events[0].detail.pathname + '?tracker_ignore=true&fume_case_id=' + caseID + '&fume_session_id=' + session.id
 
     it('My Test Case', () => {
+        cy.logToTerminal('Running Session: ' + session.id);
         cy.visit(pageURL)
 
         // Iterate over each cookie and set it
@@ -33,6 +34,8 @@ describe('Fume Test Suite', () => {
                 win.localStorage.setItem(key, localStorage[key]);
             });
         });
+
+        cy.reload()
 
         cy.waitUntil(() =>
             cy.getCookie('test-ready').then(cookie => {
